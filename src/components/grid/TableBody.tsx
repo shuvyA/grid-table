@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
-import type { ReactNode, KeyboardEvent } from 'react'
-import type { ColumnDefinition } from './GridTable'
+import styled from '@emotion/styled';
+import type { ReactNode, KeyboardEvent } from 'react';
+import type { ColumnDefinition } from './GridTable';
 
 // Types/interfaces
 interface TableBodyProps<T> {
@@ -13,14 +13,19 @@ interface TableBodyProps<T> {
 }
 
 // Component definition
-function TableBody<T extends { id: number | string }>(
-  { data, columns, focusedRow, handleRowClick, handleKeyDown, renderCell }: TableBodyProps<T>
-) {
+function TableBody<T extends { id: number | string }>({
+  data,
+  columns,
+  focusedRow,
+  handleRowClick,
+  handleKeyDown,
+  renderCell,
+}: TableBodyProps<T>) {
   return (
     <tbody>
       {data.map((item, index) => (
-        <Tr 
-          key={item.id} 
+        <Tr
+          key={item.id}
           onClick={() => handleRowClick(item.id)}
           onKeyDown={(e) => handleKeyDown(e, item.id, index)}
           role="row"
@@ -29,11 +34,7 @@ function TableBody<T extends { id: number | string }>(
           aria-selected={focusedRow === index}
         >
           {columns.map((column, colIndex) => (
-            <Td 
-              key={colIndex}
-              role="gridcell"
-              aria-colindex={colIndex + 1}
-            >
+            <Td key={colIndex} role="gridcell" aria-colindex={colIndex + 1}>
               {renderCell(item, column.accessor)}
             </Td>
           ))}
@@ -53,7 +54,7 @@ const Td = styled.td`
   min-height: 45px;
   padding: 0 1rem;
   border-bottom: 1px solid #607085;
-`
+`;
 
 const Tr = styled.tr`
   &:hover {
@@ -64,7 +65,7 @@ const Tr = styled.tr`
     outline: 2px solid #646cff;
     outline-offset: -2px;
   }
-`
+`;
 
 // Export default at the end
-export default TableBody; 
+export default TableBody;

@@ -1,67 +1,78 @@
-import { useState, useMemo, useEffect } from 'react'
-import type { ChangeEvent } from 'react'
-import styled from '@emotion/styled'
+import { useState, useMemo, useEffect } from 'react';
+import type { ChangeEvent } from 'react';
+import styled from '@emotion/styled';
 
 // Types
 interface PaginationControlsProps<T> {
-  data: T[]
-  onPageChange: (data: T[]) => void
-  onPaginationChange: (page: number, pageSize: number, totalPages: number, totalItems: number) => void
+  data: T[];
+  onPageChange: (data: T[]) => void;
+  onPaginationChange: (
+    page: number,
+    pageSize: number,
+    totalPages: number,
+    totalItems: number
+  ) => void;
 }
 
 // Component
-function PaginationControls<T>({ 
-  data, 
-  onPageChange, 
-  onPaginationChange 
+function PaginationControls<T>({
+  data,
+  onPageChange,
+  onPaginationChange,
 }: PaginationControlsProps<T>) {
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // Calculate pagination values
-  const total = data.length
-  const totalPages = Math.max(1, Math.ceil(total / pageSize))
+  const total = data.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   // Calculate paginated data
   const paginatedData = useMemo(() => {
-    const start = (page - 1) * pageSize
-    const end = start + pageSize
-    return data.slice(start, end)
-  }, [data, page, pageSize])
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    return data.slice(start, end);
+  }, [data, page, pageSize]);
 
   // Notify parent of changes
   useEffect(() => {
-    onPageChange(paginatedData)
-  }, [paginatedData, onPageChange])
+    onPageChange(paginatedData);
+  }, [paginatedData, onPageChange]);
 
   useEffect(() => {
-    onPaginationChange(page, pageSize, totalPages, total)
-  }, [page, pageSize, totalPages, total, onPaginationChange])
+    onPaginationChange(page, pageSize, totalPages, total);
+  }, [page, pageSize, totalPages, total, onPaginationChange]);
 
   // Handlers
   const goToPage = (newPage: number) => {
-    setPage(Math.max(1, Math.min(newPage, totalPages)))
-  }
+    setPage(Math.max(1, Math.min(newPage, totalPages)));
+  };
 
   const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setPageSize(Number(e.target.value))
-    setPage(1) // Reset to first page on size change
-  }
+    setPageSize(Number(e.target.value));
+    setPage(1); // Reset to first page on size change
+  };
 
   return (
     <PaginationContainer>
       <div>
         <label htmlFor="pageSizeSelect">Rows per page: </label>
-        <PageSizeSelect id="pageSizeSelect" value={pageSize} onChange={handlePageSizeChange}>
-          {[10, 20, 50, 100].map(size => (
-            <option key={size} value={size}>{size}</option>
+        <PageSizeSelect
+          id="pageSizeSelect"
+          value={pageSize}
+          onChange={handlePageSizeChange}
+        >
+          {[10, 20, 50, 100].map((size) => (
+            <option key={size} value={size}>
+              {size}
+            </option>
           ))}
         </PageSizeSelect>
       </div>
 
       <PaginationButtonsWrapper>
-        <PageButton 
-          onClick={() => goToPage(page - 1)} 
+        <PageButton
+          onClick={() => goToPage(page - 1)}
           disabled={page === 1}
           aria-label="Previous page"
         >
@@ -78,8 +89,8 @@ function PaginationControls<T>({
             {i + 1}
           </PageButton>
         ))}
-        <PageButton 
-          onClick={() => goToPage(page + 1)} 
+        <PageButton
+          onClick={() => goToPage(page + 1)}
           disabled={page === totalPages}
           aria-label="Next page"
         >
@@ -91,7 +102,7 @@ function PaginationControls<T>({
         Page {page} of {totalPages} ({total} items)
       </PageInfo>
     </PaginationContainer>
-  )
+  );
 }
 
 // Styled components
@@ -103,14 +114,14 @@ const PaginationContainer = styled.div`
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 1rem 0;
-`
+`;
 
 const PaginationButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin: 0 auto; // Center the buttons if the container wraps
-`
+`;
 
 const PageSizeSelect = styled.select`
   padding: 0.3rem 0.8rem;
@@ -118,16 +129,16 @@ const PageSizeSelect = styled.select`
   border-radius: 4px;
   border: 1px solid #ccc;
   background-color: white;
-`
+`;
 
 const PageInfo = styled.div`
   font-size: 0.9rem;
   color: #666;
-`
+`;
 
 const PageButton = styled.button<{ active?: boolean }>`
-  background: ${props => props.active ? '#646cff' : 'white'};
-  color: ${props => props.active ? 'white' : '#333'};
+  background: ${(props) => (props.active ? '#646cff' : 'white')};
+  color: ${(props) => (props.active ? 'white' : '#333')};
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 0.3rem 0.8rem;
@@ -136,7 +147,7 @@ const PageButton = styled.button<{ active?: boolean }>`
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: ${props => props.active ? '#646cff' : '#f0f0f0'};
+    background: ${(props) => (props.active ? '#646cff' : '#f0f0f0')};
   }
 
   &:focus-visible {
@@ -148,6 +159,6 @@ const PageButton = styled.button<{ active?: boolean }>`
     opacity: 0.5;
     cursor: not-allowed;
   }
-`
+`;
 
-export default PaginationControls
+export default PaginationControls;

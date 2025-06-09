@@ -7,4 +7,4 @@ export const gridConfig = {
 };
 
 // Define a type for our config keys for type safety
-export type GridDataType = keyof typeof gridConfig; 
+export type GridDataType = keyof typeof gridConfig;
