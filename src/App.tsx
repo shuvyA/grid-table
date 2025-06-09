@@ -101,7 +101,6 @@ const MainContent = styled.main`
   }
 
   @media (max-width: 768px) {
-    padding: 0 1rem;
     width: 100%;
   }
 `;
