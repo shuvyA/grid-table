@@ -99,8 +99,12 @@ function RowDetails() {
 
 // Styled components
 const DetailsContainer = styled.div`
-  padding: 2rem;
+  padding: 1rem;
   font-family: 'Lato', sans-serif;
+  
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
 `;
 
 const BackButton = styled.button`
@@ -157,11 +161,16 @@ const DetailsGrid = styled.div`
 
 const DetailsRow = styled.div`
   display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
   align-items: start;
   padding: 0.75rem 0;
   border-bottom: 1px solid #f1f3f5;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 220px 1fr;
+    gap: 1rem;
+  }
 
   &:last-child {
     border-bottom: none;

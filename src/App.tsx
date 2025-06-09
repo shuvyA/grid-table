@@ -44,27 +44,40 @@ const AppContainer = styled.div`
 const PageWrapper = styled.div`
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
+
+  @media (min-width: 768px) {
+    padding: 0 2rem;
+  }
 `;
 
 const NavBar = styled.nav`
   background: #ffffff;
   border-bottom: 1px solid #e0e0e0;
-  padding: 1rem 2rem;
+  padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    padding: 1rem 2rem;
+    gap: 1.5rem;
+  }
 `;
 
 const NavTitle = styled.h1`
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   margin: 0;
   color: #333;
   font-weight: 600;
   margin-right: auto;
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const NavLink = styled(Link)`
