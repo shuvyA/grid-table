@@ -170,41 +170,77 @@ function GridTable<T extends { id: number | string }>({
 
   return (
     <TableContainer>
-      <Title id="table-title">{title}</Title>
-      <Table
-        ref={tableRef}
-        role="grid"
-        aria-labelledby="table-title"
-        aria-rowcount={paginatedData.length}
-        aria-colcount={columns.length}
-      >
-        <TableHeader
-          columns={columns}
-          sortConfig={sortConfig}
-          handleSort={handleSort}
-          setSearch={setSearch}
+      <RotateMessage>
+        <p>Please rotate your device or use a wider screen to view this table.</p>
+      </RotateMessage>
+      <TableWrapper>
+        <Title id="table-title">{title}</Title>
+        <Table
+          ref={tableRef}
+          role="grid"
+          aria-labelledby="table-title"
+          aria-rowcount={paginatedData.length}
+          aria-colcount={columns.length}
+        >
+          <TableHeader
+            columns={columns}
+            sortConfig={sortConfig}
+            handleSort={handleSort}
+            setSearch={setSearch}
+          />
+          <TableBody
+            data={paginatedData}
+            columns={columns}
+            focusedRow={focusedRow}
+            handleRowClick={handleRowClick}
+            handleKeyDown={handleKeyDown}
+            renderCell={renderCell}
+          />
+        </Table>
+        <PaginationControls
+          data={filteredAndSortedData}
+          onPageChange={setPaginatedData}
+          onPaginationChange={() => {}}
         />
-        <TableBody
-          data={paginatedData}
-          columns={columns}
-          focusedRow={focusedRow}
-          handleRowClick={handleRowClick}
-          handleKeyDown={handleKeyDown}
-          renderCell={renderCell}
-        />
-      </Table>
-      <PaginationControls
-        data={filteredAndSortedData}
-        onPageChange={setPaginatedData}
-        onPaginationChange={() => {}}
-      />
+      </TableWrapper>
     </TableContainer>
   );
 }
 
 const TableContainer = styled.div`
-  padding: 2rem;
+  position: relative;
+  padding: 1rem;
   font-family: 'Lato', sans-serif;
+
+  @media (min-width: 520px) {
+    padding: 2rem;
+  }
+`;
+
+const RotateMessage = styled.div`
+  display: none;
+
+  @media (max-width: 520px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #666;
+    font-weight: 500;
+  }
+`;
+
+const TableWrapper = styled.div`
+  width: 100%;
+  overflow-x: auto;
+
+  @media (max-width: 520px) {
+    display: none;
+  }
 `;
 
 const Table = styled.table`
