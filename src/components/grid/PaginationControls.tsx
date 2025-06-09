@@ -49,41 +49,80 @@ function PaginationControls<T>({
   }
 
   return (
-    <PaginationControlsWrapper>
-      <PageButton 
-        onClick={() => goToPage(page - 1)} 
-        disabled={page === 1}
-        aria-label="Previous page"
-      >
-        &lt;
-      </PageButton>
-      {Array.from({ length: totalPages }, (_, i) => (
-        <PageButton
-          key={i + 1}
-          active={page === i + 1}
-          onClick={() => goToPage(i + 1)}
-          aria-label={`Go to page ${i + 1}`}
-          aria-current={page === i + 1 ? 'page' : undefined}
+    <PaginationContainer>
+      <div>
+        <label htmlFor="pageSizeSelect">Rows per page: </label>
+        <PageSizeSelect id="pageSizeSelect" value={pageSize} onChange={handlePageSizeChange}>
+          {[10, 20, 50, 100].map(size => (
+            <option key={size} value={size}>{size}</option>
+          ))}
+        </PageSizeSelect>
+      </div>
+
+      <PaginationButtonsWrapper>
+        <PageButton 
+          onClick={() => goToPage(page - 1)} 
+          disabled={page === 1}
+          aria-label="Previous page"
         >
-          {i + 1}
+          &lt;
         </PageButton>
-      ))}
-      <PageButton 
-        onClick={() => goToPage(page + 1)} 
-        disabled={page === totalPages}
-        aria-label="Next page"
-      >
-        &gt;
-      </PageButton>
-    </PaginationControlsWrapper>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <PageButton
+            key={i + 1}
+            active={page === i + 1}
+            onClick={() => goToPage(i + 1)}
+            aria-label={`Go to page ${i + 1}`}
+            aria-current={page === i + 1 ? 'page' : undefined}
+          >
+            {i + 1}
+          </PageButton>
+        ))}
+        <PageButton 
+          onClick={() => goToPage(page + 1)} 
+          disabled={page === totalPages}
+          aria-label="Next page"
+        >
+          &gt;
+        </PageButton>
+      </PaginationButtonsWrapper>
+
+      <PageInfo>
+        Page {page} of {totalPages} ({total} items)
+      </PageInfo>
+    </PaginationContainer>
   )
 }
 
 // Styled components
-const PaginationControlsWrapper = styled.div`
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem 0;
+`
+
+const PaginationButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin: 0 auto; // Center the buttons if the container wraps
+`
+
+const PageSizeSelect = styled.select`
+  padding: 0.3rem 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+`
+
+const PageInfo = styled.div`
+  font-size: 0.9rem;
+  color: #666;
 `
 
 const PageButton = styled.button<{ active?: boolean }>`

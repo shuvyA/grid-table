@@ -1,25 +1,21 @@
 import styled from '@emotion/styled'
-import type { ReactNode, KeyboardEvent } from 'react'
 import type { ColumnDefinition } from './GridTable'
-import throttle from 'lodash/throttle'
 import type { ThHTMLAttributes } from 'react'
 
 // Types/interfaces
 interface TableHeaderProps<T> {
     columns: ColumnDefinition<T>[];
     sortConfig: { key: keyof T | null; direction: 'asc' | 'desc' };
-    filters: Record<string, string>;
     handleSort: (accessor: keyof T) => void;
-    throttledSetFilter: (key: string, value: string) => void;
+    setSearch: (key: string, value: string) => void;
 }
 
 // Component definition
 function TableHeader<T extends { id: number | string }>({
     columns,
     sortConfig,
-    filters,
     handleSort,
-    throttledSetFilter,
+    setSearch,
 }: TableHeaderProps<T>) {
     return (
         <thead>
@@ -70,7 +66,7 @@ function TableHeader<T extends { id: number | string }>({
                                         placeholder={`Filter...`}
                                         onChange={e => {
                                             e.stopPropagation()
-                                            throttledSetFilter(accessor, e.target.value)
+                                            setSearch(accessor, e.target.value)
                                         }
                                     }
                                     onClick={(e)=>{

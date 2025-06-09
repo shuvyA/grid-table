@@ -7,6 +7,7 @@ import PaginationControls from './PaginationControls'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import type { GridDataType } from '../../config/gridConfig'
+import { debounce } from 'lodash'
 
 export interface ColumnDefinition<T> {
   header: string
@@ -92,7 +93,7 @@ function GridTable<T extends { id: number | string }>({
     }
   }
 
-  const throttledSetFilter = useMemo(() => throttle((key: string, value: string) => {
+  const setSearch = useMemo(() => debounce((key: string, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }))
   }, 300), [])
 
@@ -151,9 +152,8 @@ function GridTable<T extends { id: number | string }>({
         <TableHeader 
           columns={columns}
           sortConfig={sortConfig}
-          filters={filters}
           handleSort={handleSort}
-          throttledSetFilter={throttledSetFilter}
+          setSearch={setSearch}
         />
         <TableBody
           data={paginatedData}
